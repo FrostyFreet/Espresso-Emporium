@@ -15,7 +15,7 @@ app.use(express.json());
 
 connectDb();
 
-app.get('/', async (req, res) => {
+app.get('/fetchData', async (req, res) => {
   try {
     const data = await coffeeMachines.find();
     res.json(data);
@@ -23,6 +23,16 @@ app.get('/', async (req, res) => {
     res.status(500).json({ message: 'Error retrieving data' });
   }
 });
+
+app.get('/:id',async (req,res)=>{
+    const param=req.params.id
+    try {
+        const data = await coffeeMachines.findById(param);
+        res.json(data);
+    } catch (e) {
+        res.status(500).json({ message: 'Error retrieving data' });
+    }
+})
 
 
 
