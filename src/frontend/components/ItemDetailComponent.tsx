@@ -11,6 +11,10 @@ export default function ItemDetailComponent({setCartItems}:dataTypeProps) {
     const { id } = useParams();
     const [disabled,setDisabled]=useState<boolean>(false)
     useEffect(() => {
+        if(itemData?.stock===0){setDisabled(true)}
+        else {setDisabled(false);}
+    }, [itemData?.stock]);
+    useEffect(() => {
         if (id) {
             console.log("Fetching item with ID:", id);
             axios
@@ -91,7 +95,7 @@ export default function ItemDetailComponent({setCartItems}:dataTypeProps) {
                         </CardContent>
                         <CardActions sx={{ justifyContent: 'flex-start', paddingX: 3, paddingBottom: 3 }}>
                             <Button variant="contained" size="small" color="primary" onClick={()=>addToCart(itemData)} disabled={disabled}>
-                                {disabled?<p>Out of Stock</p>:<p>Add to Cart</p>}
+                               {disabled?<p>Out of Stock</p>:<p>Add to Cart</p>}
                             </Button>
                         </CardActions>
                     </Card>

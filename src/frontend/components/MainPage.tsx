@@ -10,7 +10,7 @@ import Grid from '@mui/material/Grid2';
 import { grey } from "@mui/material/colors";
 import { Link } from "react-router-dom";
 
-export default function CardComponent({ data, searchTerm }: dataTypeProps) {
+export default function MainPage({ data, searchTerm }: dataTypeProps) {
     return (
         <>
             <Box sx={{ flexGrow: 1, mt: 2, px: 3 }}>

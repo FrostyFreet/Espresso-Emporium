@@ -58,7 +58,7 @@ app.post('/sendOrder', async (req, res) => {
           await  client.query(`update coffee_machines SET stock = stock - $1 WHERE id = $2`,[quantity, id])
         }
 
-        res.json('Sent order');
+        res.json('Order was successful')
     } catch (e) {
         res.status(500).json({ message: 'Error retrieving data' });
     }

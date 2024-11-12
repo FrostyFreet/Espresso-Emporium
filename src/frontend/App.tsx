@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import CardComponent from "./components/CardComponent.tsx";
+import MainPage from "./components/MainPage.tsx";
 import {dataType} from "./types.tsx";
 import './App.css'
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
@@ -32,7 +32,7 @@ function App() {
           element:(
                 <>
                     <Navbar data={data} setData={setData} searchTerm={searchTerm} setSearchTerm={setSearchTerm} cartItems={cartItems}/>
-                    <CardComponent data={data} setData={setData} searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+                    <MainPage data={data} setData={setData} searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
                     <Footer/>
                 </>
             )

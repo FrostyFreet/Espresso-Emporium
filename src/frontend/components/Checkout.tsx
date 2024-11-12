@@ -7,15 +7,16 @@ import AddIcon from '@mui/icons-material/Add';
 import { useForm } from "react-hook-form"
 import axios from "axios";
 import {useState} from "react";
+import ModalComponent from "./ModalComponent.tsx";
 
 
 export default function Checkout({cartItems,setCartItems}:dataTypeProps) {
 
 
-    const {register, handleSubmit,formState: { errors },} = useForm<formTypes>()
+    const {register, handleSubmit,reset,formState: { errors },} = useForm<formTypes>()
     const [disabled,setDisabled]=useState<boolean>(false)
+    const [showModal,setShowModal]=useState<boolean>(false)
     const total=cartItems?.reduce((acc:number,curr:dataType)=> acc + curr.price * curr.quantity,0)
-
     const onSubmit = async (data:formTypes) => {
         const orderData = {
             ...data,           // The form data (e.g., billing info)
@@ -26,6 +27,9 @@ export default function Checkout({cartItems,setCartItems}:dataTypeProps) {
             console.log("Order Data:", orderData);
             const response = await axios.post('http://localhost:3000/sendOrder', orderData);
             console.log('Order sent successfully:', response.data);
+            setShowModal(true)
+            reset()
+
 
         } catch (error) {
             console.error('Error submitting the order:', error);
@@ -53,7 +57,7 @@ export default function Checkout({cartItems,setCartItems}:dataTypeProps) {
     return (
         <>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} action={'submit'}>
             <Grid container spacing={4} padding={4}>
                 <Grid size={{xs:12}}>
                     <Typography variant="h4" gutterBottom>
@@ -205,7 +209,7 @@ export default function Checkout({cartItems,setCartItems}:dataTypeProps) {
                 </Grid>
             </Grid>
         </form>
-
+            {showModal&& <ModalComponent/>}
         </>
     );
 }
