@@ -8,13 +8,17 @@ import ItemDetailComponent from "./components/ItemDetailComponent.tsx";
 import Navbar from "./components/Navbar.tsx";
 import Footer from "./components/Footer.tsx";
 import Checkout from "./components/Checkout.tsx";
+import RegisterPage from "./components/RegisterPage.tsx";
+import LoginPage from "./components/LoginPage.tsx";
+import ForgotPasswordPage from "./components/ForgotPasswordPage.tsx";
+
 
 
 function App() {
 
-  const [data, setData] = useState<dataType[]>([]);
-  const [searchTerm,setSearchTerm]=useState('')
-  const [cartItems,setCartItems]=useState<dataType[]>([])
+    const [data, setData] = useState<dataType[]>([]);
+    const [searchTerm,setSearchTerm]=useState('')
+    const [cartItems,setCartItems]=useState<dataType[]>([])
 
   useEffect(() => {
     axios
@@ -58,7 +62,21 @@ function App() {
                         <Footer/>
                     </>
                 )
-        }
+        },
+      {
+          path:'/LoginPage',
+          element:<LoginPage/>
+      },
+      {
+          path:'/RegisterPage',
+          element:<RegisterPage/>
+      },
+      {
+          path:'/ForgotPassword',
+          element:<ForgotPasswordPage/>
+      }
+
+
 
   ])
 

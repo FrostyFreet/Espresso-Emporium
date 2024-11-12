@@ -7,6 +7,7 @@ import { searchTermProps } from '../types.tsx';
 import { Link } from 'react-router-dom';
 
 export default function Navbar({ searchTerm, setSearchTerm, cartItems=[] }: searchTermProps) {
+
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -84,7 +85,7 @@ export default function Navbar({ searchTerm, setSearchTerm, cartItems=[] }: sear
                             </IconButton>
                         </form>
 
-                        {/* Login Button */}
+                       <Link to={'/LoginPage'}>
                         <Button
                             color="inherit"
                             sx={{
@@ -97,6 +98,7 @@ export default function Navbar({ searchTerm, setSearchTerm, cartItems=[] }: sear
                         >
                             Login
                         </Button>
+                       </Link>
                     </Box>
 
                     {/* Cart Icon */}
