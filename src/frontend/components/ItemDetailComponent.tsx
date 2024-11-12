@@ -15,7 +15,9 @@ export default function ItemDetailComponent({setCartItems}:dataTypeProps) {
             console.log("Fetching item with ID:", id);
             axios
                 .get(`http://localhost:3000/${id}`)
-                .then((response) => setItemData(response.data))
+                .then((response) => {
+                    setItemData(response.data.rows[0])
+                })
                 .catch((error) => console.log(error));
         }
     }, [id]);
@@ -26,7 +28,7 @@ export default function ItemDetailComponent({setCartItems}:dataTypeProps) {
 
     function addToCart(itemData: dataType) {
         setCartItems?.((prevState) => {
-            const existingItemIndex = prevState.findIndex(item => item._id === itemData._id);
+            const existingItemIndex = prevState.findIndex(item => item.id === itemData.id);
             if (existingItemIndex !== -1) {
                 // If the item already exists, increase its quantity
                 const updatedCart = [...prevState];
@@ -58,7 +60,7 @@ export default function ItemDetailComponent({setCartItems}:dataTypeProps) {
                             overflow: 'hidden',
 
                         }}
-                        key={itemData._id}
+                        key={itemData.id}
                     >
                         <CardMedia
                             sx={{

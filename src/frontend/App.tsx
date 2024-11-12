@@ -19,7 +19,9 @@ function App() {
   useEffect(() => {
     axios
       .get('http://localhost:3000/fetchData')
-      .then((response) => setData(response.data))
+      .then((response) => {
+          setData(response.data.rows)
+      })
       .catch((error) => console.log(error));
   }, []);
 

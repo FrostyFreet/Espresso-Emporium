@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid2';
 
 export default function Footer() {
     return (
-        <Box sx={{ bgcolor: teal[700], color: "white", py: 3, mt: 3, height:"150px" }}>
+        <Box sx={{ bgcolor: teal[700], color: "white", py: 3, mt: 3, height:"150px" }} style={{}}>
             <Container maxWidth="lg">
                 <Grid container spacing={4} justifyContent="space-between">
                     {/* About Section */}

@@ -16,7 +16,7 @@ export default function CardComponent({ data, searchTerm }: dataTypeProps) {
             <Box sx={{ flexGrow: 1, mt: 2, px: 3 }}>
                 <Grid container spacing={3} justifyContent="center">
                     {searchTerm.length > 0 ? data.filter((item) => item.name.toLowerCase().includes(searchTerm.toLowerCase())).map((item) => (
-                        <Grid key={item._id} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                        <Grid key={item.id} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
                             {/* Card with flex properties to ensure equal height */}
                             <Card
                                 variant="outlined"
@@ -53,7 +53,7 @@ export default function CardComponent({ data, searchTerm }: dataTypeProps) {
                                     </Typography>
                                 </CardContent>
                                 <CardActions sx={{ justifyContent: 'flex-end', p: 2 }}>
-                                    <Link to={`/${item._id}`}>
+                                    <Link to={`/${item.id}`}>
                                         <Button variant="contained" size="small" color="primary">
                                             Learn More
                                         </Button>
@@ -62,7 +62,7 @@ export default function CardComponent({ data, searchTerm }: dataTypeProps) {
                             </Card>
                         </Grid>
                     )) : data.map((item) => (
-                        <Grid key={item._id} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                        <Grid key={item.id} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
                             {/* Card with flex properties to ensure equal height */}
                             <Card
                                 variant="outlined"
@@ -95,7 +95,7 @@ export default function CardComponent({ data, searchTerm }: dataTypeProps) {
                                     </Typography>
                                 </CardContent>
                                 <CardActions sx={{ justifyContent: 'flex-end', p: 2 }}>
-                                    <Link to={`/${item._id}`}>
+                                    <Link to={`/${item.id}`}>
                                         <Button variant="contained" size="small" color="primary">
                                             Learn More
                                         </Button>

@@ -1,39 +1,58 @@
 import {Typography, TextField, Divider, Button, Card, CardContent, IconButton} from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Grid from '@mui/material/Grid2'
-import {dataTypeProps,formTypes} from "../types.tsx";
+import {dataType, dataTypeProps, formTypes} from "../types.tsx";
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import { useForm } from "react-hook-form"
-
-
+import axios from "axios";
+import {useState} from "react";
 
 
 export default function Checkout({cartItems,setCartItems}:dataTypeProps) {
 
 
     const {register, handleSubmit,formState: { errors },} = useForm<formTypes>()
-    function onSubmit(data: formTypes) {
-        console.log(data);
-    }
-    const handleIncrement = (id:string) => {
+    const [disabled,setDisabled]=useState<boolean>(false)
+    const total=cartItems?.reduce((acc:number,curr:dataType)=> acc + curr.price * curr.quantity,0)
+
+    const onSubmit = async (data:formTypes) => {
+        const orderData = {
+            ...data,           // The form data (e.g., billing info)
+            cartItems: cartItems, // The items in the cart
+            totalPrice:total
+        };
+        try {
+            console.log("Order Data:", orderData);
+            const response = await axios.post('http://localhost:3000/sendOrder', orderData);
+            console.log('Order sent successfully:', response.data);
+
+        } catch (error) {
+            console.error('Error submitting the order:', error);
+        }
+    };
+    const handleIncrement = (id:number) => {
         setCartItems?.((prevState)=>
-            prevState.map((item)=>item._id===id &&item.quantity<item.stock?
+            prevState.map((item)=>item.id===id &&item.quantity<item.stock?
                 {...item,quantity:item.quantity+1}:
                 item)
         )
+        cartItems?.map((item)=>item.id===id &&item.quantity===item.stock && setDisabled(!disabled))
     };
 
-    const handleDecrement = (id:string) => {
-        setCartItems?.((prevState)=>prevState.map((item)=>item._id===id && item.quantity>=1?{...item,quantity:item.quantity-1} : item )
+    const handleDecrement = (id:number) => {
+        setCartItems?.((prevState)=>prevState.map((item)=>item.id===id && item.quantity>=1?{...item,quantity:item.quantity-1} : item )
             .filter((item)=>item.quantity>0))
-
+        if(disabled){
+            setDisabled(false)
+        }
     };
-    const total=cartItems?.reduce((acc,curr)=> acc + curr.price * curr.quantity,0)
 
 
 
     return (
+        <>
+
         <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={4} padding={4}>
                 <Grid size={{xs:12}}>
@@ -119,7 +138,7 @@ export default function Checkout({cartItems,setCartItems}:dataTypeProps) {
 
                             {cartItems?.map((cart)=>(
 
-                                <Grid container spacing={2} key={cart._id} alignItems="center" sx={{ mb: 1 }}>
+                                <Grid container spacing={2} key={cart.id} alignItems="center" sx={{ mb: 1 }}>
 
                                     <Grid size={{xs:3}}>
                                         <img src={cart.img} alt={cart.name} style={{ width: '60px', height: '60px' }} />
@@ -133,7 +152,7 @@ export default function Checkout({cartItems,setCartItems}:dataTypeProps) {
 
                                     <Grid size={{xs:3}} container alignItems="center" >
                                         <Grid>
-                                            <IconButton onClick={()=>handleDecrement(cart._id)}>
+                                            <IconButton onClick={()=>handleDecrement(cart.id)}>
                                                 <RemoveIcon/>
                                             </IconButton>
                                         </Grid>
@@ -146,7 +165,7 @@ export default function Checkout({cartItems,setCartItems}:dataTypeProps) {
                                             </Typography>
                                         )}
                                         <Grid>
-                                            <IconButton onClick={()=>handleIncrement(cart._id)} >
+                                            <IconButton onClick={()=>handleIncrement(cart.id)} disabled={disabled} >
                                                 <AddIcon/>
                                             </IconButton>
                                         </Grid>
@@ -163,12 +182,30 @@ export default function Checkout({cartItems,setCartItems}:dataTypeProps) {
                 </Grid>
 
                 {/* Place Order Button */}
-                <Grid size={{xs:12, md:6}} display="flex" justifyContent="center">
-                    <Button variant="contained" color="primary" size="large" type={'submit'}>
+                <Grid size={{ xs: 12, md: 6 }} display="flex" justifyContent="center" sx={{ mt: 3 }}>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        size="large"
+                        type="submit"
+                        sx={{
+                            padding: '12px 24px', // Larger padding for a more substantial button
+                            borderRadius: '8px', // Rounded corners
+                            fontWeight: 'bold', // Bold text for emphasis
+                            boxShadow: 3, // Add a subtle shadow for depth
+                            '&:hover': {
+                                backgroundColor: 'primary.dark', // Darker shade on hover
+                                boxShadow: 6, // More prominent shadow on hover
+                            },
+                            transition: 'all 0.3s ease', // Smooth transition for hover effects
+                        }}
+                    >
                         Place Order
                     </Button>
                 </Grid>
             </Grid>
         </form>
+
+        </>
     );
 }

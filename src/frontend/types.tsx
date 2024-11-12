@@ -2,13 +2,14 @@ import React from "react";
 
 export interface dataType {
     quantity: number;
-    _id: string;
+    id: number;
     name: string;
     stock: number;
     description?: string;
     img: string;
     type: string;
     price: number;
+    totalPrice?:number;
 }
 
 export interface dataTypeProps {
