@@ -1,18 +1,13 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import MainPage from "./components/MainPage.tsx";
+import MainPage from "./pages/MainPage.tsx";
 import {dataType} from "./types.tsx";
 import './App.css'
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
-import ItemDetailComponent from "./components/ItemDetailComponent.tsx";
+import ItemDetailPage from "./pages/ItemDetailPage.tsx";
 import Navbar from "./components/Navbar.tsx";
 import Footer from "./components/Footer.tsx";
-import Checkout from "./components/Checkout.tsx";
-import RegisterPage from "./components/RegisterPage.tsx";
-import LoginPage from "./components/LoginPage.tsx";
-import ForgotPasswordPage from "./components/ForgotPasswordPage.tsx";
-
-
+import CheckoutPage from "./pages/CheckoutPage.tsx";
 
 function App() {
 
@@ -47,7 +42,7 @@ function App() {
               (
                   <>
                     <Navbar data={data} setData={setData} searchTerm={searchTerm} setSearchTerm={setSearchTerm} cartItems={cartItems}/>
-                    <ItemDetailComponent setCartItems={setCartItems} data={data} searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+                    <ItemDetailPage setCartItems={setCartItems} data={data} searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
                     <Footer/>
                   </>
               )
@@ -58,23 +53,12 @@ function App() {
                 (
                     <>
                         <Navbar data={data} setData={setData} searchTerm={searchTerm} setSearchTerm={setSearchTerm} cartItems={cartItems}/>
-                        <Checkout cartItems={cartItems} setCartItems={setCartItems} data={data} searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
+                        <CheckoutPage cartItems={cartItems} setCartItems={setCartItems} data={data} searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
                         <Footer/>
                     </>
                 )
-        },
-      {
-          path:'/LoginPage',
-          element:<LoginPage/>
-      },
-      {
-          path:'/RegisterPage',
-          element:<RegisterPage/>
-      },
-      {
-          path:'/ForgotPassword',
-          element:<ForgotPasswordPage/>
-      }
+        }
+
 
 
 
@@ -83,8 +67,7 @@ function App() {
   return (
     <>
       <RouterProvider router={router} />
-
-
+        
     </>
   );
 }

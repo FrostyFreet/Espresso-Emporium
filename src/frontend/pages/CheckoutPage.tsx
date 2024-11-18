@@ -7,12 +7,12 @@ import AddIcon from '@mui/icons-material/Add';
 import { useForm } from "react-hook-form"
 import axios from "axios";
 import {useState} from "react";
-import ModalComponent from "./ModalComponent.tsx";
+import ModalComponent from "../components/ModalComponent.tsx";
+import {useAuth0} from "@auth0/auth0-react";
 
 
-export default function Checkout({cartItems,setCartItems}:dataTypeProps) {
-
-
+export default function CheckoutPage({cartItems,setCartItems}:dataTypeProps) {
+    const {isAuthenticated,user} = useAuth0();
     const {register, handleSubmit,reset,formState: { errors },} = useForm<formTypes>()
     const [disabled,setDisabled]=useState<boolean>(false)
     const [showModal,setShowModal]=useState<boolean>(false)
@@ -71,12 +71,15 @@ export default function Checkout({cartItems,setCartItems}:dataTypeProps) {
                         <CardContent>
                             <Typography variant="h6">Billing Information</Typography>
                             <Divider sx={{ my: 2 }} />
-
-                            <TextField fullWidth label="Full Name" variant="outlined" margin="normal"{...register("FullName", { required: "Full name is required" })} />
+                            {isAuthenticated? (<TextField fullWidth label="Full Name" variant="outlined" margin="normal" value={user?.name}{...register("FullName", { required: "Full name is required" })} />)
+                                : <TextField fullWidth label="Full Name" variant="outlined" margin="normal"{...register("FullName", { required: "Full name is required" })} />
+                            }
                             {errors.FullName && <span style={{ color: "red" }}>{errors.FullName.message}</span>}
 
-                            <TextField fullWidth label="Email Address" variant="outlined" margin="normal" type="email" {...register("EmailAddress", {required: "Email is required",
-                                pattern: {value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/, message: "Invalid email address"}})} />
+
+                            {isAuthenticated? <TextField fullWidth label="Email Address" variant="outlined" margin="normal" type="email" value={user?.email} {...register("EmailAddress", {required: "Email is required",
+                                pattern: {value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/, message: "Invalid email address"}})} /> : <TextField fullWidth label="Email Address" variant="outlined" margin="normal" type="email" {...register("EmailAddress", {required: "Email is required",
+                                pattern: {value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/, message: "Invalid email address"}})} />}
                             {errors.EmailAddress && <span style={{ color: "red" }}>{errors.EmailAddress.message}</span>}
 
                             <TextField fullWidth label="Phone Number" variant="outlined" margin="normal" type="tel" placeholder={'+36205556677'} {...register("PhoneNumber", {required: "Phone number is required", pattern: {value: /^\+?[1-9]\d{1,14}$/, message: "Invalid phone number"}})} />

@@ -23,8 +23,8 @@ export interface dataTypeProps {
 }
 
 export interface searchTermProps {
-    searchTerm: string,
-    setSearchTerm: React.Dispatch<React.SetStateAction<string>>,
+    searchTerm?: string,
+    setSearchTerm?: React.Dispatch<React.SetStateAction<string>>,
     data?: dataType[],
     setData?: (value: (((prevState: dataType[]) => dataType[]) | dataType[])) => void
     cartItems?:dataType[];

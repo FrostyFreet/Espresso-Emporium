@@ -6,7 +6,7 @@ import axios from "axios";
 import { grey } from "@mui/material/colors";
 import Grid from '@mui/material/Grid2'
 
-export default function ItemDetailComponent({setCartItems}:dataTypeProps) {
+export default function ItemDetailPage({setCartItems}:dataTypeProps) {
     const [itemData, setItemData] = useState<dataType | null>(null);
     const { id } = useParams();
     const [disabled,setDisabled]=useState<boolean>(false)
@@ -76,7 +76,7 @@ export default function ItemDetailComponent({setCartItems}:dataTypeProps) {
                             image={itemData.img}
                             title={itemData.name}
                         />
-                        <CardContent sx={{ padding: 3, bgcolor: grey[50] }}>
+                        <CardContent sx={{ padding: 3, bgColor: grey[50] }}>
                             <Typography variant="h5" component="div" sx={{ fontWeight: 'bold', mb: 2 }}>
                                 {itemData.name}
                             </Typography>

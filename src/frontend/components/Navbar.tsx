@@ -1,4 +1,16 @@
-import { AppBar, Box, Button, FormControl, IconButton, Input, Menu, MenuItem, Toolbar, Typography, Divider } from '@mui/material';
+import {
+    AppBar,
+    Box,
+    Button,
+    FormControl,
+    IconButton,
+    Input,
+    Menu,
+    MenuItem,
+    Toolbar,
+    Typography,
+    Divider,
+} from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import SearchIcon from '@mui/icons-material/Search';
 import { teal } from '@mui/material/colors';
@@ -6,8 +18,12 @@ import React from 'react';
 import { searchTermProps } from '../types.tsx';
 import { Link } from 'react-router-dom';
 
-export default function Navbar({ searchTerm, setSearchTerm, cartItems=[] }: searchTermProps) {
+import LoginButton from "./LoginButton.tsx";
+import {useAuth0} from "@auth0/auth0-react";
+import ProfileComponent from "./ProfileComponent.tsx";
 
+export default function Navbar({ searchTerm, setSearchTerm, cartItems=[] }: searchTermProps) {
+    const {isAuthenticated } = useAuth0();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -19,13 +35,12 @@ export default function Navbar({ searchTerm, setSearchTerm, cartItems=[] }: sear
 
     function handleSearchTerm(e: React.ChangeEvent<HTMLInputElement>) {
         const value = e.target.value;
-        setSearchTerm(value);
+        setSearchTerm?.(value);
     }
 
     function submitSearch(e: React.FormEvent) {
         e.preventDefault();
     }
-
     return (
         <Box sx={{ flexGrow: 1, width: '100%' }}>
             <AppBar
@@ -85,22 +100,11 @@ export default function Navbar({ searchTerm, setSearchTerm, cartItems=[] }: sear
                             </IconButton>
                         </form>
 
-                       <Link to={'/LoginPage'}>
-                        <Button
-                            color="inherit"
-                            sx={{
-                                borderRadius: 2,
-                                ml: 2, // Adds space between the search bar and login button
-                                '&:hover': {
-                                    bgcolor: 'rgba(255, 255, 255, 0.2)',
-                                },
-                            }}
-                        >
-                            Login
-                        </Button>
-                       </Link>
+                        {!isAuthenticated && <LoginButton/> }
                     </Box>
-
+                    <Box>
+                        {isAuthenticated && <ProfileComponent/>}
+                    </Box>
                     {/* Cart Icon */}
                     <IconButton
                         size="large"
@@ -119,7 +123,7 @@ export default function Navbar({ searchTerm, setSearchTerm, cartItems=[] }: sear
 
                     {/* Cart Menu */}
                     <Menu
-                        id="basic-menu"
+                        id="cart_menu"
                         anchorEl={anchorEl}
                         open={open}
                         onClose={handleClose}
@@ -130,7 +134,7 @@ export default function Navbar({ searchTerm, setSearchTerm, cartItems=[] }: sear
                         {cartItems?.length !== 0 ? (
                             cartItems.map((cart) => (
                                 <MenuItem onClick={handleClose} sx={{ display: 'flex', alignItems: 'center' }}>
-                                    <img src={cart.img} style={{ width: '40px', height: '40px', marginRight: '8px' }} />
+                                    <img src={cart.img} alt={cart.name} style={{ width: '40px', height: '40px', marginRight: '8px' }} />
                                     <div>
                                         <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
                                             {cart.name}
