@@ -6,13 +6,8 @@ const LogoutButton = () => {
     return(
         <>
              <Button onClick={() => logout({logoutParams: {returnTo: window.location.origin}}) } style={{textDecoration:'none', color:"gray",marginRight:'5px'}} >Log Out</Button>
-
-
-
         </>
     )
-
-
 };
 
 export default LogoutButton;

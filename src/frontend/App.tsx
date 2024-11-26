@@ -8,9 +8,10 @@ import ItemDetailPage from "./pages/ItemDetailPage.tsx";
 import Navbar from "./components/Navbar.tsx";
 import Footer from "./components/Footer.tsx";
 import CheckoutPage from "./pages/CheckoutPage.tsx";
+import ProfilePage from "./pages/ProfilePage.tsx";
+import ProtectedRoute from './components/ProtectedRouteComponent.tsx';
 
 function App() {
-
     const [data, setData] = useState<dataType[]>([]);
     const [searchTerm,setSearchTerm]=useState('')
     const [cartItems,setCartItems]=useState<dataType[]>([])
@@ -57,6 +58,20 @@ function App() {
                         <Footer/>
                     </>
                 )
+        },
+        {
+          path:'/ProfilePage',
+          element:
+              (
+                  <ProtectedRoute>
+
+                      <>
+                          <Navbar data={data} setData={setData} searchTerm={searchTerm} setSearchTerm={setSearchTerm} cartItems={cartItems}/>
+                          <ProfilePage/>
+                          <Footer/>
+                      </>
+                  </ProtectedRoute>
+              )
         }
 
 

@@ -1,8 +1,9 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useState } from "react";
 import { Avatar, Box, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip } from "@mui/material";
-import { Logout, Settings } from "@mui/icons-material";
+import { Logout } from "@mui/icons-material";
 import LogoutButton from "./LogoutButton.tsx";
+import {Link} from "react-router-dom";
 
 const Profile = () => {
     const { user, isAuthenticated } = useAuth0();
@@ -73,16 +74,12 @@ const Profile = () => {
                         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                     >
-                        <MenuItem onClick={handleClose}>
-                            <Avatar src={user?.picture}/> Profile
-                        </MenuItem>
+                        <Link to={'/ProfilePage'}>
+                            <MenuItem onClick={handleClose}>
+                                <Avatar src={user?.picture}/> Profile
+                            </MenuItem>
+                        </Link>
                         <Divider />
-                        <MenuItem>
-                            <ListItemIcon>
-                                <Settings fontSize="small" />
-                            </ListItemIcon>
-                            Settings
-                        </MenuItem>
 
                         <MenuItem onClick={handleClose}>
                             <ListItemIcon>
